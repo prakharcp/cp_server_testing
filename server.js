@@ -18,7 +18,6 @@ app.post("/jwt-testing", (req, res) => {
       sameSite: "none",
       secure: true,
       maxAge: 3 * 24 * 60 * 60 * 1000,
-      domain: "web.class-proxima.com",
     });
 
     res.redirect("/done");
