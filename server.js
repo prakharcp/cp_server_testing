@@ -14,8 +14,9 @@ const PORT = process.env.PORT || 4000;
 app.post("/jwt-testing", (req, res) => {
   try {
     res.cookie("jwt", "token", {
+      httpOnly: true,
+      sameSite: "none",
       secure: true,
-      sameSite: "Lax",
       maxAge: 3 * 24 * 60 * 60 * 1000,
       domain: "web.class-proxima.com",
     });
