@@ -7,29 +7,19 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://web.class-proxima.com", // Replace with your frontend URL
+    credentials: true,
+  })
+);
 
 const PORT = process.env.PORT || 4000;
 
 app.get("/jwt-testing", (req, res) => {
   try {
-    console.log("Hello");
-    res.setHeader(
-      "Content-Security-Policy",
-      "script-src 'self' *.watchmegrow.com"
-    );
-    res.setHeader("credentials", "include");
-    res.cookie("test_jwt", "token", {
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-      maxAge: 60 * 60 * 1000,
-      credentials: "include",
-    });
-
-    res.json({
-      msg: "sdad",
-    });
+    res.cookie("mycookie", "cookievalue", { maxAge: 900000, httpOnly: true });
+    res.send("Cookie set successfully");
     // res.redirect("/done");
   } catch (err) {
     console.log(err);
