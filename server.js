@@ -4,23 +4,38 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 const PORT = process.env.PORT || 4000;
 
-app.post("/jwt-testing", (req, res) => {
+app.get("/jwt-testing", (req, res) => {
   try {
-    res.cookie("jwt", "token", {
+    console.log("Hello");
+    res.setHeader(
+      "Content-Security-Policy",
+      "script-src 'self' *.watchmegrow.com"
+    );
+    res.setHeader("credentials", "include");
+    res.cookie("test_jwt", "token", {
       httpOnly: true,
       sameSite: "none",
       secure: true,
-      maxAge: 3 * 24 * 60 * 60 * 1000,
+      maxAge: 60 * 60 * 1000,
+      credentials: "include",
     });
 
-    res.redirect("/done");
+    res.json({
+      msg: "sdad",
+    });
+    // res.redirect("/done");
   } catch (err) {
     console.log(err);
     res.json({
